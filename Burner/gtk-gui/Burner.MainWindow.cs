@@ -18,9 +18,13 @@ namespace Burner
 		
 		private global::Gtk.Button btnStop;
 		
+		private global::Gtk.Button btnUnknown;
+		
 		private global::Gtk.Button btnUp;
 		
 		private global::Gtk.HScrollbar sclPower;
+		
+		private global::Gtk.Button btnDemo;
 		
 		private global::Gtk.ScrolledWindow GtkScrolledWindow;
 		
@@ -53,7 +57,7 @@ namespace Burner
 			this.btnDown.CanFocus = true;
 			this.btnDown.Name = "btnDown";
 			this.btnDown.UseUnderline = true;
-			this.btnDown.Label = global::Mono.Unix.Catalog.GetString ("GtkButton");
+			this.btnDown.Label = global::Mono.Unix.Catalog.GetString ("v");
 			this.table1.Add (this.btnDown);
 			global::Gtk.Table.TableChild w1 = ((global::Gtk.Table.TableChild)(this.table1 [this.btnDown]));
 			w1.TopAttach = ((uint)(2));
@@ -67,7 +71,7 @@ namespace Burner
 			this.btnLeft.CanFocus = true;
 			this.btnLeft.Name = "btnLeft";
 			this.btnLeft.UseUnderline = true;
-			this.btnLeft.Label = global::Mono.Unix.Catalog.GetString ("GtkButton");
+			this.btnLeft.Label = global::Mono.Unix.Catalog.GetString ("<");
 			this.table1.Add (this.btnLeft);
 			global::Gtk.Table.TableChild w2 = ((global::Gtk.Table.TableChild)(this.table1 [this.btnLeft]));
 			w2.TopAttach = ((uint)(1));
@@ -79,7 +83,7 @@ namespace Burner
 			this.btnRight.CanFocus = true;
 			this.btnRight.Name = "btnRight";
 			this.btnRight.UseUnderline = true;
-			this.btnRight.Label = global::Mono.Unix.Catalog.GetString ("GtkButton");
+			this.btnRight.Label = global::Mono.Unix.Catalog.GetString (">");
 			this.table1.Add (this.btnRight);
 			global::Gtk.Table.TableChild w3 = ((global::Gtk.Table.TableChild)(this.table1 [this.btnRight]));
 			w3.TopAttach = ((uint)(1));
@@ -93,7 +97,7 @@ namespace Burner
 			this.btnStop.CanFocus = true;
 			this.btnStop.Name = "btnStop";
 			this.btnStop.UseUnderline = true;
-			this.btnStop.Label = global::Mono.Unix.Catalog.GetString ("GtkButton");
+			this.btnStop.Label = global::Mono.Unix.Catalog.GetString ("Stop");
 			this.table1.Add (this.btnStop);
 			global::Gtk.Table.TableChild w4 = ((global::Gtk.Table.TableChild)(this.table1 [this.btnStop]));
 			w4.TopAttach = ((uint)(1));
@@ -103,23 +107,35 @@ namespace Burner
 			w4.XOptions = ((global::Gtk.AttachOptions)(4));
 			w4.YOptions = ((global::Gtk.AttachOptions)(4));
 			// Container child table1.Gtk.Table+TableChild
+			this.btnUnknown = new global::Gtk.Button ();
+			this.btnUnknown.CanFocus = true;
+			this.btnUnknown.Name = "btnUnknown";
+			this.btnUnknown.UseUnderline = true;
+			this.btnUnknown.Label = global::Mono.Unix.Catalog.GetString ("?");
+			this.table1.Add (this.btnUnknown);
+			global::Gtk.Table.TableChild w5 = ((global::Gtk.Table.TableChild)(this.table1 [this.btnUnknown]));
+			w5.TopAttach = ((uint)(2));
+			w5.BottomAttach = ((uint)(3));
+			w5.XOptions = ((global::Gtk.AttachOptions)(4));
+			w5.YOptions = ((global::Gtk.AttachOptions)(4));
+			// Container child table1.Gtk.Table+TableChild
 			this.btnUp = new global::Gtk.Button ();
 			this.btnUp.CanFocus = true;
 			this.btnUp.Events = ((global::Gdk.EventMask)(768));
 			this.btnUp.Name = "btnUp";
 			this.btnUp.UseUnderline = true;
-			this.btnUp.Label = global::Mono.Unix.Catalog.GetString ("GtkButton");
+			this.btnUp.Label = global::Mono.Unix.Catalog.GetString ("^");
 			this.table1.Add (this.btnUp);
-			global::Gtk.Table.TableChild w5 = ((global::Gtk.Table.TableChild)(this.table1 [this.btnUp]));
-			w5.LeftAttach = ((uint)(1));
-			w5.RightAttach = ((uint)(2));
-			w5.XOptions = ((global::Gtk.AttachOptions)(4));
-			w5.YOptions = ((global::Gtk.AttachOptions)(4));
+			global::Gtk.Table.TableChild w6 = ((global::Gtk.Table.TableChild)(this.table1 [this.btnUp]));
+			w6.LeftAttach = ((uint)(1));
+			w6.RightAttach = ((uint)(2));
+			w6.XOptions = ((global::Gtk.AttachOptions)(4));
+			w6.YOptions = ((global::Gtk.AttachOptions)(4));
 			this.vbox1.Add (this.table1);
-			global::Gtk.Box.BoxChild w6 = ((global::Gtk.Box.BoxChild)(this.vbox1 [this.table1]));
-			w6.Position = 0;
-			w6.Expand = false;
-			w6.Fill = false;
+			global::Gtk.Box.BoxChild w7 = ((global::Gtk.Box.BoxChild)(this.vbox1 [this.table1]));
+			w7.Position = 0;
+			w7.Expand = false;
+			w7.Fill = false;
 			// Container child vbox1.Gtk.Box+BoxChild
 			this.sclPower = new global::Gtk.HScrollbar (null);
 			this.sclPower.Name = "sclPower";
@@ -128,15 +144,26 @@ namespace Burner
 			this.sclPower.Adjustment.PageSize = 10;
 			this.sclPower.Adjustment.StepIncrement = 1;
 			this.vbox1.Add (this.sclPower);
-			global::Gtk.Box.BoxChild w7 = ((global::Gtk.Box.BoxChild)(this.vbox1 [this.sclPower]));
-			w7.Position = 1;
-			w7.Expand = false;
-			w7.Fill = false;
-			this.hbox1.Add (this.vbox1);
-			global::Gtk.Box.BoxChild w8 = ((global::Gtk.Box.BoxChild)(this.hbox1 [this.vbox1]));
-			w8.Position = 0;
+			global::Gtk.Box.BoxChild w8 = ((global::Gtk.Box.BoxChild)(this.vbox1 [this.sclPower]));
+			w8.Position = 1;
 			w8.Expand = false;
 			w8.Fill = false;
+			// Container child vbox1.Gtk.Box+BoxChild
+			this.btnDemo = new global::Gtk.Button ();
+			this.btnDemo.CanFocus = true;
+			this.btnDemo.Name = "btnDemo";
+			this.btnDemo.UseUnderline = true;
+			this.btnDemo.Label = global::Mono.Unix.Catalog.GetString ("Demo");
+			this.vbox1.Add (this.btnDemo);
+			global::Gtk.Box.BoxChild w9 = ((global::Gtk.Box.BoxChild)(this.vbox1 [this.btnDemo]));
+			w9.Position = 2;
+			w9.Expand = false;
+			w9.Fill = false;
+			this.hbox1.Add (this.vbox1);
+			global::Gtk.Box.BoxChild w10 = ((global::Gtk.Box.BoxChild)(this.hbox1 [this.vbox1]));
+			w10.Position = 0;
+			w10.Expand = false;
+			w10.Fill = false;
 			// Container child hbox1.Gtk.Box+BoxChild
 			this.GtkScrolledWindow = new global::Gtk.ScrolledWindow ();
 			this.GtkScrolledWindow.Name = "GtkScrolledWindow";
@@ -147,8 +174,8 @@ namespace Burner
 			this.txtLog.Name = "txtLog";
 			this.GtkScrolledWindow.Add (this.txtLog);
 			this.hbox1.Add (this.GtkScrolledWindow);
-			global::Gtk.Box.BoxChild w10 = ((global::Gtk.Box.BoxChild)(this.hbox1 [this.GtkScrolledWindow]));
-			w10.Position = 2;
+			global::Gtk.Box.BoxChild w12 = ((global::Gtk.Box.BoxChild)(this.hbox1 [this.GtkScrolledWindow]));
+			w12.Position = 2;
 			this.Add (this.hbox1);
 			if ((this.Child != null)) {
 				this.Child.ShowAll ();

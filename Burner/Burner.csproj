@@ -58,5 +58,8 @@
     <Compile Include="gtk-gui\Burner.MainWindow.cs" />
     <Compile Include="LaserCutter.cs" />
     <Compile Include="Program.cs" />
+    <Compile Include="Command.cs" />
+    <Compile Include="PulseCommand.cs" />
+    <Compile Include="RunCommand.cs" />
   </ItemGroup>
 </Project>
