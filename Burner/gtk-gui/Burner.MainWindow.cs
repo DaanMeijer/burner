@@ -24,7 +24,37 @@ namespace Burner
 		
 		private global::Gtk.HScrollbar sclPower;
 		
-		private global::Gtk.Button btnDemo;
+		private global::Gtk.Button btnHalt;
+		
+		private global::Gtk.VBox vbox2;
+		
+		private global::Gtk.Label lblPower;
+		
+		private global::Gtk.HScale sclBitmapPower;
+		
+		private global::Gtk.Label lblLinger;
+		
+		private global::Gtk.HScale sclLinger;
+		
+		private global::Gtk.Label lblSpeed;
+		
+		private global::Gtk.HScale sclSpeed;
+		
+		private global::Gtk.Label lblStepSize;
+		
+		private global::Gtk.HScale sclStepSize;
+		
+		private global::Gtk.Label lbWT;
+		
+		private global::Gtk.HScale sclWT;
+		
+		private global::Gtk.Button btnBurn;
+		
+		private global::Gtk.VBox vbox3;
+		
+		private global::Gtk.FileChooserButton fileImage;
+		
+		private global::Gtk.Image imgPreview;
 		
 		private global::Gtk.ScrolledWindow GtkScrolledWindow;
 		
@@ -149,13 +179,13 @@ namespace Burner
 			w8.Expand = false;
 			w8.Fill = false;
 			// Container child vbox1.Gtk.Box+BoxChild
-			this.btnDemo = new global::Gtk.Button ();
-			this.btnDemo.CanFocus = true;
-			this.btnDemo.Name = "btnDemo";
-			this.btnDemo.UseUnderline = true;
-			this.btnDemo.Label = global::Mono.Unix.Catalog.GetString ("Demo");
-			this.vbox1.Add (this.btnDemo);
-			global::Gtk.Box.BoxChild w9 = ((global::Gtk.Box.BoxChild)(this.vbox1 [this.btnDemo]));
+			this.btnHalt = new global::Gtk.Button ();
+			this.btnHalt.CanFocus = true;
+			this.btnHalt.Name = "btnHalt";
+			this.btnHalt.UseUnderline = true;
+			this.btnHalt.Label = global::Mono.Unix.Catalog.GetString ("Halt");
+			this.vbox1.Add (this.btnHalt);
+			global::Gtk.Box.BoxChild w9 = ((global::Gtk.Box.BoxChild)(this.vbox1 [this.btnHalt]));
 			w9.Position = 2;
 			w9.Expand = false;
 			w9.Fill = false;
@@ -165,6 +195,171 @@ namespace Burner
 			w10.Expand = false;
 			w10.Fill = false;
 			// Container child hbox1.Gtk.Box+BoxChild
+			this.vbox2 = new global::Gtk.VBox ();
+			this.vbox2.Name = "vbox2";
+			this.vbox2.Spacing = 6;
+			// Container child vbox2.Gtk.Box+BoxChild
+			this.lblPower = new global::Gtk.Label ();
+			this.lblPower.Name = "lblPower";
+			this.lblPower.LabelProp = global::Mono.Unix.Catalog.GetString ("Power");
+			this.vbox2.Add (this.lblPower);
+			global::Gtk.Box.BoxChild w11 = ((global::Gtk.Box.BoxChild)(this.vbox2 [this.lblPower]));
+			w11.Position = 0;
+			w11.Expand = false;
+			w11.Fill = false;
+			// Container child vbox2.Gtk.Box+BoxChild
+			this.sclBitmapPower = new global::Gtk.HScale (null);
+			this.sclBitmapPower.CanFocus = true;
+			this.sclBitmapPower.Name = "sclBitmapPower";
+			this.sclBitmapPower.Inverted = true;
+			this.sclBitmapPower.Adjustment.Upper = 255;
+			this.sclBitmapPower.Adjustment.PageIncrement = 10;
+			this.sclBitmapPower.Adjustment.StepIncrement = 1;
+			this.sclBitmapPower.Adjustment.Value = 250;
+			this.sclBitmapPower.DrawValue = true;
+			this.sclBitmapPower.Digits = 0;
+			this.sclBitmapPower.ValuePos = ((global::Gtk.PositionType)(2));
+			this.vbox2.Add (this.sclBitmapPower);
+			global::Gtk.Box.BoxChild w12 = ((global::Gtk.Box.BoxChild)(this.vbox2 [this.sclBitmapPower]));
+			w12.Position = 1;
+			w12.Expand = false;
+			// Container child vbox2.Gtk.Box+BoxChild
+			this.lblLinger = new global::Gtk.Label ();
+			this.lblLinger.Name = "lblLinger";
+			this.lblLinger.LabelProp = global::Mono.Unix.Catalog.GetString ("Linger time");
+			this.vbox2.Add (this.lblLinger);
+			global::Gtk.Box.BoxChild w13 = ((global::Gtk.Box.BoxChild)(this.vbox2 [this.lblLinger]));
+			w13.Position = 2;
+			w13.Expand = false;
+			w13.Fill = false;
+			// Container child vbox2.Gtk.Box+BoxChild
+			this.sclLinger = new global::Gtk.HScale (null);
+			this.sclLinger.CanFocus = true;
+			this.sclLinger.Name = "sclLinger";
+			this.sclLinger.Adjustment.Upper = 1000;
+			this.sclLinger.Adjustment.PageIncrement = 10;
+			this.sclLinger.Adjustment.StepIncrement = 5;
+			this.sclLinger.Adjustment.Value = 250;
+			this.sclLinger.DrawValue = true;
+			this.sclLinger.Digits = 0;
+			this.sclLinger.ValuePos = ((global::Gtk.PositionType)(2));
+			this.vbox2.Add (this.sclLinger);
+			global::Gtk.Box.BoxChild w14 = ((global::Gtk.Box.BoxChild)(this.vbox2 [this.sclLinger]));
+			w14.Position = 3;
+			w14.Expand = false;
+			w14.Fill = false;
+			// Container child vbox2.Gtk.Box+BoxChild
+			this.lblSpeed = new global::Gtk.Label ();
+			this.lblSpeed.Name = "lblSpeed";
+			this.lblSpeed.LabelProp = global::Mono.Unix.Catalog.GetString ("Speed");
+			this.vbox2.Add (this.lblSpeed);
+			global::Gtk.Box.BoxChild w15 = ((global::Gtk.Box.BoxChild)(this.vbox2 [this.lblSpeed]));
+			w15.Position = 4;
+			w15.Expand = false;
+			w15.Fill = false;
+			// Container child vbox2.Gtk.Box+BoxChild
+			this.sclSpeed = new global::Gtk.HScale (null);
+			this.sclSpeed.CanFocus = true;
+			this.sclSpeed.Name = "sclSpeed";
+			this.sclSpeed.Inverted = true;
+			this.sclSpeed.Adjustment.Lower = 1;
+			this.sclSpeed.Adjustment.Upper = 12;
+			this.sclSpeed.Adjustment.PageIncrement = 3;
+			this.sclSpeed.Adjustment.StepIncrement = 1;
+			this.sclSpeed.Adjustment.Value = 6;
+			this.sclSpeed.DrawValue = true;
+			this.sclSpeed.Digits = 0;
+			this.sclSpeed.ValuePos = ((global::Gtk.PositionType)(2));
+			this.vbox2.Add (this.sclSpeed);
+			global::Gtk.Box.BoxChild w16 = ((global::Gtk.Box.BoxChild)(this.vbox2 [this.sclSpeed]));
+			w16.Position = 5;
+			w16.Expand = false;
+			w16.Fill = false;
+			// Container child vbox2.Gtk.Box+BoxChild
+			this.lblStepSize = new global::Gtk.Label ();
+			this.lblStepSize.Name = "lblStepSize";
+			this.lblStepSize.LabelProp = global::Mono.Unix.Catalog.GetString ("Step Size");
+			this.vbox2.Add (this.lblStepSize);
+			global::Gtk.Box.BoxChild w17 = ((global::Gtk.Box.BoxChild)(this.vbox2 [this.lblStepSize]));
+			w17.Position = 6;
+			w17.Expand = false;
+			w17.Fill = false;
+			// Container child vbox2.Gtk.Box+BoxChild
+			this.sclStepSize = new global::Gtk.HScale (null);
+			this.sclStepSize.CanFocus = true;
+			this.sclStepSize.Name = "sclStepSize";
+			this.sclStepSize.Adjustment.Lower = 8;
+			this.sclStepSize.Adjustment.Upper = 24;
+			this.sclStepSize.Adjustment.PageIncrement = 3;
+			this.sclStepSize.Adjustment.StepIncrement = 2;
+			this.sclStepSize.Adjustment.Value = 20;
+			this.sclStepSize.DrawValue = true;
+			this.sclStepSize.Digits = 0;
+			this.sclStepSize.ValuePos = ((global::Gtk.PositionType)(2));
+			this.vbox2.Add (this.sclStepSize);
+			global::Gtk.Box.BoxChild w18 = ((global::Gtk.Box.BoxChild)(this.vbox2 [this.sclStepSize]));
+			w18.Position = 7;
+			w18.Expand = false;
+			w18.Fill = false;
+			// Container child vbox2.Gtk.Box+BoxChild
+			this.lbWT = new global::Gtk.Label ();
+			this.lbWT.Name = "lbWT";
+			this.lbWT.LabelProp = global::Mono.Unix.Catalog.GetString ("WT");
+			this.vbox2.Add (this.lbWT);
+			global::Gtk.Box.BoxChild w19 = ((global::Gtk.Box.BoxChild)(this.vbox2 [this.lbWT]));
+			w19.Position = 8;
+			w19.Expand = false;
+			w19.Fill = false;
+			// Container child vbox2.Gtk.Box+BoxChild
+			this.sclWT = new global::Gtk.HScale (null);
+			this.sclWT.CanFocus = true;
+			this.sclWT.Name = "sclWT";
+			this.sclWT.Adjustment.Upper = 10;
+			this.sclWT.Adjustment.PageIncrement = 2;
+			this.sclWT.Adjustment.StepIncrement = 1;
+			this.sclWT.Adjustment.Value = 4;
+			this.sclWT.DrawValue = true;
+			this.sclWT.Digits = 0;
+			this.sclWT.ValuePos = ((global::Gtk.PositionType)(2));
+			this.vbox2.Add (this.sclWT);
+			global::Gtk.Box.BoxChild w20 = ((global::Gtk.Box.BoxChild)(this.vbox2 [this.sclWT]));
+			w20.Position = 9;
+			w20.Expand = false;
+			w20.Fill = false;
+			// Container child vbox2.Gtk.Box+BoxChild
+			this.btnBurn = new global::Gtk.Button ();
+			this.btnBurn.CanFocus = true;
+			this.btnBurn.Name = "btnBurn";
+			this.btnBurn.UseUnderline = true;
+			this.btnBurn.Label = global::Mono.Unix.Catalog.GetString ("Burn!");
+			this.vbox2.Add (this.btnBurn);
+			global::Gtk.Box.BoxChild w21 = ((global::Gtk.Box.BoxChild)(this.vbox2 [this.btnBurn]));
+			w21.Position = 10;
+			w21.Expand = false;
+			w21.Fill = false;
+			this.hbox1.Add (this.vbox2);
+			global::Gtk.Box.BoxChild w22 = ((global::Gtk.Box.BoxChild)(this.hbox1 [this.vbox2]));
+			w22.Position = 1;
+			// Container child hbox1.Gtk.Box+BoxChild
+			this.vbox3 = new global::Gtk.VBox ();
+			this.vbox3.Name = "vbox3";
+			this.vbox3.Spacing = 6;
+			// Container child vbox3.Gtk.Box+BoxChild
+			this.fileImage = new global::Gtk.FileChooserButton (global::Mono.Unix.Catalog.GetString ("Select a File"), ((global::Gtk.FileChooserAction)(0)));
+			this.fileImage.Name = "fileImage";
+			this.vbox3.Add (this.fileImage);
+			global::Gtk.Box.BoxChild w23 = ((global::Gtk.Box.BoxChild)(this.vbox3 [this.fileImage]));
+			w23.Position = 0;
+			w23.Expand = false;
+			w23.Fill = false;
+			// Container child vbox3.Gtk.Box+BoxChild
+			this.imgPreview = new global::Gtk.Image ();
+			this.imgPreview.Name = "imgPreview";
+			this.vbox3.Add (this.imgPreview);
+			global::Gtk.Box.BoxChild w24 = ((global::Gtk.Box.BoxChild)(this.vbox3 [this.imgPreview]));
+			w24.Position = 1;
+			w24.Expand = false;
+			// Container child vbox3.Gtk.Box+BoxChild
 			this.GtkScrolledWindow = new global::Gtk.ScrolledWindow ();
 			this.GtkScrolledWindow.Name = "GtkScrolledWindow";
 			this.GtkScrolledWindow.ShadowType = ((global::Gtk.ShadowType)(1));
@@ -173,9 +368,14 @@ namespace Burner
 			this.txtLog.CanFocus = true;
 			this.txtLog.Name = "txtLog";
 			this.GtkScrolledWindow.Add (this.txtLog);
-			this.hbox1.Add (this.GtkScrolledWindow);
-			global::Gtk.Box.BoxChild w12 = ((global::Gtk.Box.BoxChild)(this.hbox1 [this.GtkScrolledWindow]));
-			w12.Position = 2;
+			this.vbox3.Add (this.GtkScrolledWindow);
+			global::Gtk.Box.BoxChild w26 = ((global::Gtk.Box.BoxChild)(this.vbox3 [this.GtkScrolledWindow]));
+			w26.Position = 2;
+			this.hbox1.Add (this.vbox3);
+			global::Gtk.Box.BoxChild w27 = ((global::Gtk.Box.BoxChild)(this.hbox1 [this.vbox3]));
+			w27.Position = 2;
+			w27.Expand = false;
+			w27.Fill = false;
 			this.Add (this.hbox1);
 			if ((this.Child != null)) {
 				this.Child.ShowAll ();

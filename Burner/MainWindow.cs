@@ -3,7 +3,8 @@
 using System.IO.Ports;
 using Gtk;
 using System.Collections.Generic;
-
+using Gdk;
+using System.Drawing;
 
 namespace Burner
 {
@@ -24,7 +25,9 @@ namespace Burner
 
 			this.btnStop.Clicked += new EventHandler (this.clickStop);
 
-			this.btnDemo.Clicked += new EventHandler (this.demo);
+			this.btnHalt.Clicked += new EventHandler (this.clickHalt);
+
+			this.btnBurn.Clicked += new EventHandler (this.demo);
 			this.btnUnknown.Clicked += new EventHandler (this.unknownFunction);
 		
 			this.sclPower.ChangeValue += new ChangeValueHandler (this.changePower);
@@ -36,6 +39,21 @@ namespace Burner
 			this.KeyReleaseEvent += new KeyReleaseEventHandler (this.onKeyRelease); 
 
 			this.Destroyed += new EventHandler (this.OnDestroy);
+
+
+			fileImage.SelectionChanged += new EventHandler (this.selectImage);
+		}
+
+		private Bitmap bitmapImage; 
+		public void selectImage(object o, EventArgs args){
+
+			bitmapImage = new Bitmap(fileImage.Filename);
+
+			var buffer = System.IO.File.ReadAllBytes (fileImage.Filename);
+
+			var pixbuf = new Pixbuf (buffer);
+			imgPreview.Pixbuf = pixbuf;
+		
 		}
 
 		private void OnDestroy(object o, EventArgs args)
@@ -48,7 +66,14 @@ namespace Burner
 
 		public void handleLasercutterLog(string line){
 			Gtk.Application.Invoke (delegate {
-				txtLog.Buffer.Text = line + "\n" + this.txtLog.Buffer.Text;
+				string text = line + "\n" + this.txtLog.Buffer.Text;
+				if(text.Length > 1024){
+					int index = text.IndexOf('\n', 1024);
+					if(index > 0){
+						text = text.Substring(1, index);
+					}
+				}
+				txtLog.Buffer.Text = text;
 			});
 		}
 
@@ -58,12 +83,91 @@ namespace Burner
 
 		}
 
+		public void burnBitmap(){
+
+
+			int pulses = (byte)(int)sclLinger.Value;
+			int power = (int)sclBitmapPower.Value;
+
+			sendSettings ();
+			List<Command> commands = new List<Command> ();
+
+
+			var pixels = bitmapImage;
+
+			for (int y = 0; y < pixels.Height; y++) {
+
+				Command[] line = new Command[pixels.Width];
+
+				for (int _x = 0; _x < pixels.Width; _x++) {
+
+					int x = _x;
+					if(y%2 == 1){
+						x = pixels.Width - _x - 1;
+					}
+
+					var color = pixels.GetPixel (x, y);
+
+					//byte a = (byte)(color >> 24);
+					double r = color.R / 255d;
+					double g = color.G / 255d;
+					double b = color.B / 255d;
+
+					double avg = 1 - ((r + g + b) / 3);
+
+					avg *= (color.A / 255d);
+
+					int powerScale = Math.Max(0, Math.Min(255, power)) - 255;
+
+						
+					byte bytePower = (byte)(int)( 255 + (avg * powerScale));
+
+					//System.Console.WriteLine(String.Format("R: {0}, G: {1}, B: {2}, A: {3}, power: {4}", color.R, color.G, color.B, color.A, power));
+
+					line[_x] = (new PulseCommand (x, y, bytePower, pulses));
+				
+				}
+
+				for (int a = 1; a < line.Length - 1; a++) {
+
+					if (
+						false && 
+						line[a].power > 240 &&
+						(line[a-1].power > 240) &&
+						(line[a+1].power > 240)
+					) {
+						//Console.WriteLine (String.Format("Removed node [{0},{1}]", line[a].x, line[a].y));
+					} else {
+						//Console.WriteLine (String.Format("Keeping node [{0},{1}]", line[a].x, line[a].y));
+						commands.Add (line[a]);
+					}
+
+				}
+
+			}
+				
+			laserCutter.queueCommands (commands.ToArray());
+		}
+
+		private void sendSettings(){
+
+			laserCutter.speed = (byte)(int)sclSpeed.Value;
+			laserCutter.dotSizeInSteps = (byte)(int)sclStepSize.Value;
+			laserCutter.wt = (int)sclWT.Value;
+			laserCutter.setInitialSettings ();
+
+		}
 
 		public void demo(object sender, EventArgs evt){
-			byte power = 10;
-			int pulses = 100;
+			burnBitmap ();
+		}
 
-			laserCutter.setInitialSettings ();
+		private void doSquare(){
+			sendSettings ();
+
+
+			byte power = (byte)(int)sclBitmapPower.Value;
+			int pulses = (byte)(int)sclLinger.Value;
 
 			laserCutter.queueCommands (new Command[] {
 				new PulseCommand (0, 0, power, pulses), 
@@ -75,14 +179,15 @@ namespace Burner
 				new PulseCommand (6, 0, power, pulses),
 				new PulseCommand (7, 0, power, pulses),
 
-				new PulseCommand (0, 1, power, pulses), 
-				new PulseCommand (1, 1, power, pulses), 
-				new PulseCommand (2, 1, power, pulses),
-				new PulseCommand (3, 1, power, pulses),
-				new PulseCommand (4, 1, power, pulses), 
-				new PulseCommand (5, 1, power, pulses), 
-				new PulseCommand (6, 1, power, pulses),
-				new PulseCommand (7, 1, power, pulses),
+
+				new PulseCommand (7, 1, power, pulses), 
+				new PulseCommand (6, 1, power, pulses), 
+				new PulseCommand (5, 1, power, pulses),
+				new PulseCommand (4, 1, power, pulses),
+				new PulseCommand (3, 1, power, pulses), 
+				new PulseCommand (2, 1, power, pulses), 
+				new PulseCommand (1, 1, power, pulses),
+				new PulseCommand (0, 1, power, pulses),
 
 				new PulseCommand (0, 2, power, pulses), 
 				new PulseCommand (1, 2, power, pulses), 
@@ -93,14 +198,15 @@ namespace Burner
 				new PulseCommand (6, 2, power, pulses),
 				new PulseCommand (7, 2, power, pulses),
 
-				new PulseCommand (0, 3, power, pulses), 
-				new PulseCommand (1, 3, power, pulses), 
-				new PulseCommand (2, 3, power, pulses),
-				new PulseCommand (3, 3, power, pulses),
-				new PulseCommand (4, 3, power, pulses), 
-				new PulseCommand (5, 3, power, pulses), 
-				new PulseCommand (6, 3, power, pulses),
-				new PulseCommand (7, 3, power, pulses),
+
+				new PulseCommand (7, 3, power, pulses), 
+				new PulseCommand (6, 3, power, pulses), 
+				new PulseCommand (5, 3, power, pulses),
+				new PulseCommand (4, 3, power, pulses),
+				new PulseCommand (3, 3, power, pulses), 
+				new PulseCommand (2, 3, power, pulses), 
+				new PulseCommand (1, 3, power, pulses),
+				new PulseCommand (0, 3, power, pulses),
 
 				new PulseCommand (0, 4, power, pulses), 
 				new PulseCommand (1, 4, power, pulses), 
@@ -111,14 +217,15 @@ namespace Burner
 				new PulseCommand (6, 4, power, pulses),
 				new PulseCommand (7, 4, power, pulses),
 
-				new PulseCommand (0, 5, power, pulses), 
-				new PulseCommand (1, 5, power, pulses), 
-				new PulseCommand (2, 5, power, pulses),
-				new PulseCommand (3, 5, power, pulses),
-				new PulseCommand (4, 5, power, pulses), 
-				new PulseCommand (5, 5, power, pulses), 
-				new PulseCommand (6, 5, power, pulses),
-				new PulseCommand (7, 5, power, pulses),
+
+				new PulseCommand (7, 5, power, pulses), 
+				new PulseCommand (6, 5, power, pulses), 
+				new PulseCommand (5, 5, power, pulses),
+				new PulseCommand (4, 5, power, pulses),
+				new PulseCommand (3, 5, power, pulses), 
+				new PulseCommand (2, 5, power, pulses), 
+				new PulseCommand (1, 5, power, pulses),
+				new PulseCommand (0, 5, power, pulses),
 
 				new PulseCommand (0, 6, power, pulses), 
 				new PulseCommand (1, 6, power, pulses), 
@@ -129,14 +236,15 @@ namespace Burner
 				new PulseCommand (6, 6, power, pulses),
 				new PulseCommand (7, 6, power, pulses),
 
-				new PulseCommand (0, 7, power, pulses), 
-				new PulseCommand (1, 7, power, pulses), 
-				new PulseCommand (2, 7, power, pulses),
-				new PulseCommand (3, 7, power, pulses),
-				new PulseCommand (4, 7, power, pulses), 
-				new PulseCommand (5, 7, power, pulses), 
-				new PulseCommand (6, 7, power, pulses),
-				new PulseCommand (7, 7, power, pulses),
+
+				new PulseCommand (7, 7, power, pulses), 
+				new PulseCommand (6, 7, power, pulses), 
+				new PulseCommand (5, 7, power, pulses),
+				new PulseCommand (4, 7, power, pulses),
+				new PulseCommand (3, 7, power, pulses), 
+				new PulseCommand (2, 7, power, pulses), 
+				new PulseCommand (1, 7, power, pulses),
+				new PulseCommand (0, 7, power, pulses),
 
 
 				new RunCommand(0, 0, 250)
@@ -163,16 +271,19 @@ namespace Burner
 		public void onKeyPress(object sender, KeyPressEventArgs evt){
 			switch (evt.Event.Key) {
 			case Gdk.Key.Up:
-				laserCutter.startMovingUp (50);
+				laserCutter.startMovingUp (30);
 				break;
 			case Gdk.Key.Down:
-				laserCutter.startMovingDown (50);
+				laserCutter.startMovingDown (30);
 				break;
 			case Gdk.Key.Left:
-				laserCutter.startMovingLeft (50);
+				laserCutter.startMovingLeft (30);
 				break;
 			case Gdk.Key.Right:
-				laserCutter.startMovingRight (50);
+				laserCutter.startMovingRight (30);
+				break;
+			case Gdk.Key.space:
+				laserCutter.power (10);
 				break;
 
 			default:
@@ -193,9 +304,16 @@ namespace Burner
 			case Gdk.Key.Right:
 				laserCutter.stopMoving ();
 				break;
+
+			case Gdk.Key.space:
+				laserCutter.power (250);
+				break;
 			}
 		}
 
+		public void clickHalt(object sender, EventArgs evt){
+			laserCutter.reset ();
+		}
 			
 
 		public void clickStop(object sender, EventArgs evt){

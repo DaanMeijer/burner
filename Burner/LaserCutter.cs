@@ -71,12 +71,19 @@ namespace Burner
 
 		public void reset(){
 			this.commands.Clear ();
+
+			this.executePulseCommand (new PulseCommand (0, 0, 250, 20));
+
+			/*
 			this.buf[1] = 71;
 			this.buf[2] = BitConverter.GetBytes(this.movedX)[1];
 			this.buf[3] = BitConverter.GetBytes(this.movedX)[0];
 			this.buf[4] = BitConverter.GetBytes(this.movedY)[1];
 			this.buf[5] = BitConverter.GetBytes(this.movedY)[0];
 			send ();
+			*/
+
+
 			Thread.Sleep(20);
 		}
 
@@ -114,7 +121,7 @@ namespace Burner
 
 		}
 
-		public double pulseTime = 20;
+		public int pulseTime = 20;
 		public void executePulseCommand(PulseCommand cmd){
 
 
@@ -123,16 +130,21 @@ namespace Burner
 			this.buf[3] = BitConverter.GetBytes(cmd.x)[0];
 			this.buf[4] = BitConverter.GetBytes(cmd.y)[1];
 			this.buf[5] = BitConverter.GetBytes(cmd.y)[0];
-			double sweepTime = cmd.pulses * pulseTime;
-			byte timefen = (byte)((sweepTime / 65535.0) + 1);
+
+
+
+			int sweepTime = cmd.pulses * pulseTime;
+			/*
+			byte timefen = (byte)((sweepTime / 65535) + 1);
 			this.buf[6] = timefen;
 
 			sweepTime /= (double)timefen;
 
 			int sweepTimeInt = 65536 - (int)sweepTime;
-
-			this.buf[7] = BitConverter.GetBytes(sweepTimeInt)[1];
-			this.buf[8] = BitConverter.GetBytes(sweepTimeInt)[0];
+*/
+			this.buf [6] = BitConverter.GetBytes (sweepTime) [2];
+			this.buf [7] = BitConverter.GetBytes (sweepTime) [1];
+			this.buf [8] = BitConverter.GetBytes (sweepTime) [0];
 			this.buf[9] = cmd.power;
 			send ();
 		}
@@ -316,6 +328,7 @@ namespace Burner
 		int posX = 0;
 		int posY = 0;
 		public int speed = 4;
+		public byte bitmapSpeed;
 		public byte dotSizeInSteps = 24;
 
 		public void setInitialSettings(){
@@ -335,7 +348,7 @@ namespace Burner
 
 
 			this.buf[1] = 89;
-			this.buf[2] = (byte)this.speed;
+			this.buf[2] = this.bitmapSpeed;
 			this.buf[3] = 0;
 			send ();
 			Thread.Sleep(20);
